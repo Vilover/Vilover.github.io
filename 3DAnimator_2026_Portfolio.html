@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Animator Portfolio</title>
+    <!-- 구글 폰트: 상업적 무료 이용 가능한 Gamja Flower (SIL Open Font License) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfcfc; /* 종이 질감 같은 미색 */
+            --ink-color: #2c2c2c; /* 연필심 색 */
+            --accent-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gamja Flower', cursive; /* 손글씨 폰트 적용 */
+            background-color: var(--bg-color);
+            color: var(--ink-color);
+            font-size: 1.2rem;
+        }
+
+        /* --- Header & Nav --- */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .role-text {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            padding: 15px;
+            z-index: 100;
+            border-bottom: 2px dashed #ddd;
+        }
+
+        /* 낙서 느낌의 버튼 스타일 */
+        .tab-btn {
+            background: none;
+            border: 2px solid var(--ink-color);
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            padding: 10px 25px;
+            font-family: 'Gamja Flower', cursive;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            transform: rotate(-2deg) scale(1.05);
+            background-color: var(--ink-color);
+            color: white;
+        }
+
+        .tab-btn.active {
+            background-color: var(--ink-color);
+            color: white;
+            border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; 
+            transform: rotate(1deg);
+        }
+
+        /* --- Main Content --- */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 60vh;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Video Section (Home) --- */
+        .video-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .main-reel {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #eee;
+            border: 3px solid var(--ink-color);
+            border-radius: 2px 255px 3px 25px / 255px 5px 225px 5px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-reel iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sub-videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .video-item {
+            aspect-ratio: 16 / 9;
+            background: #eee;
+            border: 2px solid var(--ink-color);
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            overflow: hidden;
+        }
+
+        /* --- Image Gallery (Other Tabs) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            position: relative;
+            background: white;
+            padding: 10px;
+            border: 2px solid var(--ink-color);
+            border-radius: 5px 255px 3px 25px / 225px 5px 255px 10px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: zoom-in;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 2px;
+            filter: grayscale(20%);
+            transition: filter 0.3s;
+        }
+
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        .caption {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 50px;
+            border-top: 2px dashed #ddd; /* 점선 유지 */
+            color: #666;
+        }
+
+        /* 이메일 스타일 수정 */
+        .footer-email {
+            font-size: 25px; /* 12pt에 해당 */
+            font-weight: 700; /* 굵게 */
+            color: var(--ink-color);
+            margin-bottom: 10px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-copy {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        /* --- Lightbox (Image Viewer) --- */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: zoom-out;
+        }
+        
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 5px solid var(--ink-color);
+            border-radius: 2px 255px 3px 25px / 255px 5px 225px 5px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>KIM YE WON</h1> <!-- 본인 이름으로 변경 -->
+        <div class="role-text">3D Animator / Character Artist</div>
+    </header>
+
+    <nav>
+        <button class="tab-btn active" onclick="openTab('home')">Home (Showreel)</button>
+        <button class="tab-btn" onclick="openTab('storyboard')">Storyboard</button>
+        <button class="tab-btn" onclick="openTab('drawing')">Drawing</button>
+        <button class="tab-btn" onclick="openTab('modeling')">Modeling</button>
+        <button class="tab-btn" onclick="openTab('figure')">Figure</button>
+    </nav>
+
+    <main>
+        <!-- 1. Home (Video) -->
+        <div id="home" class="tab-content active">
+            <h2>Showreel</h2>
+            <div class="main-reel">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/W96v8n6ni30?si=HlRATS5D1108WcMV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <h2>Short Clips</h2>
+            <div class="sub-videos">
+                <div class="video-item"><div style="padding:20px; text-align:center;">Work A</div></div>
+                <div class="video-item"><div style="padding:20px; text-align:center;">Work B</div></div>
+                <div class="video-item"><div style="padding:20px; text-align:center;">Work C</div></div>
+            </div>
+        </div>
+
+        <!-- 2. Storyboard -->
+        <div id="storyboard" class="tab-content">
+            <h2>Storyboard Album</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x300/e0e0e0/333?text=Storyboard+1" alt="SB1">
+                    <div class="caption">Scene #1 Sketch</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x500/e0e0e0/333?text=Storyboard+2" alt="SB2">
+                    <div class="caption">Character Action</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x300/e0e0e0/333?text=Storyboard+3" alt="SB3">
+                    <div class="caption">Camera Movement</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Drawing -->
+        <div id="drawing" class="tab-content">
+            <h2>2D Drawings & Sketches</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x600/ffd1d1/333?text=Drawing+1" alt="Draw1">
+                    <div class="caption">Character Concept</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x400/ffd1d1/333?text=Drawing+2" alt="Draw2">
+                    <div class="caption">Background Art</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Modeling -->
+        <div id="modeling" class="tab-content">
+            <h2>3D Modeling Works</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/500x500/d1eaff/333?text=Model+Wireframe" alt="Model1">
+                    <div class="caption">Hero Character Wireframe</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/500x500/d1eaff/333?text=Model+Render" alt="Model2">
+                    <div class="caption">Hero Character Render</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/500x500/d1eaff/333?text=Prop+Modeling" alt="Model3">
+                    <div class="caption">Environment Props</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Figure -->
+        <div id="figure" class="tab-content">
+            <h2>Figure & Anatomy Study</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x500/eaffd1/333?text=Figure+Study+1" alt="Fig1">
+                    <div class="caption">Croquis 3min</div>
+                </div>
+                <div class="gallery-item" onclick="viewImage(this)">
+                    <img src="https://via.placeholder.com/400x500/eaffd1/333?text=Figure+Study+2" alt="Fig2">
+                    <div class="caption">Muscle Structure</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- 수정된 부분 -->
+        <div class="footer-email">ywkyewon@naver.com</div>
+        <div class="footer-copy">&copy; 2026 3D Animator Portfolio. All rights reserved.</div>
+    </footer>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="" alt="Enlarged Image">
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            const contents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            const buttons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function viewImage(element) {
+            const imgSrc = element.querySelector('img').src;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imgSrc;
+            lightbox.style.display = 'flex';
+        }
+    </script>
+
+</body>
+</html>
